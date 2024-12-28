@@ -16,7 +16,7 @@ My Terraform Studies using `v1.10.3`
 `$env:AWS_SECRET_ACCESS_KEY="secret_access_key"`
 
 ## Documentation
-- [Language (HCL and JSON)](https://developer.hashicorp.com/terraform/language)  
+- [Languages (HCL and JSON)](https://developer.hashicorp.com/terraform/language)  
 The main purpose of the Terraform language is declaring resources, which represent infrastructure objects. All other language features exist only to make the definition of resources more flexible and convenient.
 - [Providers](https://registry.terraform.io/browse/providers)  
 Providers are a logical abstraction of an upstream API. They are responsible for understanding API interactions and exposing resources.
@@ -31,3 +31,46 @@ Modules are self-contained packages of Terraform configurations that are managed
 - File `.terraform.lock.hcl` - Is a "dependency lock file", used to control the versions of our Providers
 
 ## Block Structure of HCL Language
+Types of Blocks:
+
+- Terraform
+- Providers
+- Resources
+- Data
+- Module
+- Variable
+- Output
+- Locals
+```hcl
+terraform {
+  
+}
+
+provider "aws" {
+  
+}
+
+resource "aws_instance" "vm1" {
+  
+}
+
+data "aws_ami" "image" {
+  
+}
+
+module "network" {
+  
+}
+
+variable "vm_name" {
+  
+}
+
+output "vm1_ip" {
+  
+}
+
+locals {
+  
+}
+```
