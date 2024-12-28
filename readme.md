@@ -1,8 +1,8 @@
 # Terraform
 My Terraform Studies using `v1.10.3`
 
-## How to Configure Access Keys
-- Setting Environment Variables on various Operational Systems
+## Setting Access Keys as Environment Variables
+- Configuring Access Keys by setting Environment Variables on various Operational Systems
 ### Linux
 `export AWS_ACCESS_KEY_ID="access_key"`  
 `export AWS_SECRET_ACCESS_KEY="secret_access_key"`
