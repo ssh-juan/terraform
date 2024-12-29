@@ -1,9 +1,9 @@
 terraform {
-    required_version = ">= 1.3.0"
+  required_version = ">= 1.3.0"
 
-    required_providers {
+  required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "5.82.2"
     }
   }
@@ -15,9 +15,9 @@ provider "aws" {
 
   default_tags {
     tags = {
-        #key = "value"
-        owner = "juan"
-        managed-by = "terraform"
+      #key = "value"
+      owner      = "juan"
+      managed-by = "terraform"
     }
   }
 }

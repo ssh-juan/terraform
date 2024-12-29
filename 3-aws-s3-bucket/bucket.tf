@@ -1,3 +1,3 @@
 resource "aws_s3_bucket" "bucket" {
-    bucket = "tf_bucket"
+  bucket = "terraform-bucket-juan-borges"
 }
