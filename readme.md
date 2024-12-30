@@ -230,3 +230,22 @@ output "storage_account_id" {
     value = azurerm_storage_account.storage_account.id
 }
 ```
+
+## Terraform State
+Terraform must store state about your managed infrastructure and configuration. This state is used by Terraform to map real world resources to your configuration, keep track of metadata, and to improve performance for large infrastructures.
+- Remote state is implemented by a [**backend**](https://developer.hashicorp.com/terraform/language/backend) or by HCP Terraform, both of which you can configure in your configuration's root module.
+
+### Backend Block
+The backend defines where Terraform stores its state data files.
+#### Defining a Backend Block
+To configure a backend, add a nested backend block within the top-level terraform block. The following example configures the remote backend.
+```hcl
+#S3 Example
+terraform {
+  backend "s3" {
+    bucket = "mybucket"
+    key    = "path/to/my/key"
+    region = "us-east-1"
+  }
+}
+```
