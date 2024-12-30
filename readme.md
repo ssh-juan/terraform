@@ -3,17 +3,37 @@ My Terraform Studies using `v1.10.3`
 
 ## Setting Access Keys as Environment Variables
 - Configuring Access Keys by setting Environment Variables on various Operational Systems
-### Linux
+### AWS
+#### Linux
 `export AWS_ACCESS_KEY_ID="access_key"`  
 `export AWS_SECRET_ACCESS_KEY="secret_access_key"`
 
-### CMD Windows
+#### CMD Windows
 `SET AWS_ACCESS_KEY_ID=access_key`  
 `SET AWS_SECRET_ACCESS_KEY=secret_access_key`
 
-### PowerShell Windows
+#### PowerShell Windows
 `$env:AWS_ACCESS_KEY_ID="access_key"`  
 `$env:AWS_SECRET_ACCESS_KEY="secret_access_key"`
+
+### Azure
+#### Linux
+`export ARM_CLIENT_ID=client_id`  
+`export ARM_TENANT_ID=tenant_id`  
+`export ARM_SUBSCRIPTION_ID=subscription_id`  
+`export ARM_CLIENT_SECRET=client_secret`
+
+#### CMD Windows
+`SET ARM_CLIENT_ID=client_id`  
+`SET ARM_TENANT_ID=tenant_id`  
+`SET ARM_SUBSCRIPTION_ID=subscription_id`  
+`SET ARM_CLIENT_SECRET=client_secret`
+
+#### PowerShell Windows
+`$env:ARM_CLIENT_ID="client_id"`  
+`$env:ARM_TENANT_ID="tenant_id"`  
+`$env:ARM_SUBSCRIPTION_"ID=subscription_id"`  
+`$env:ARM_CLIENT_SECRET="client_secret"`
 
 ## Documentation
 - [Languages (HCL and JSON)](https://developer.hashicorp.com/terraform/language)  
