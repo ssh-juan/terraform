@@ -136,3 +136,97 @@ terraform {
 - `plan` - Show changes required by the current configuration.
 - `apply` - Create or update infrastructure.
 - `destroy` - Destroy previously-created infrastructure.
+
+## Input Variables
+Input variables let you customize aspects of Terraform modules without altering the module's own source code. This functionality allows you to share modules across different Terraform configurations, making your module composable and reusable.  
+
+Example:
+```hcl
+variable "image_id" {
+  type = string
+}
+
+variable "availability_zone_names" {
+  type    = list(string)
+  default = ["us-west-1a"]
+}
+
+variable "docker_ports" {
+  type = list(object({
+    internal = number
+    external = number
+    protocol = string
+  }))
+  default = [
+    {
+      internal = 8300
+      external = 8300
+      protocol = "tcp"
+    }
+  ]
+}
+```
+
+Declaring the Variables above:  
+Syntax: `var.name_of_variable`
+```hcl
+provider "aws" {
+  region = var.region
+}
+
+resource "aws_instance" "example" {
+  ami           = var.image_id
+  instance_type = "t2.micro"
+
+  availability_zone = element(var.availability_zone_names, 0)
+}
+
+resource "docker_container" "example" {
+  image = "nginx:latest"
+  name  = "example-nginx"
+
+  ports {
+    internal = var.docker_ports[0].internal
+    external = var.docker_ports[0].external
+    protocol = var.docker_ports[0].protocol
+  }
+}
+
+# Declare the variables
+variable "region" {
+  description = "Region where resources will be provisioned on AWS"
+  type        = string
+  default     = "us-west-1"
+}
+```
+
+### Assigning Values to Root Module Variables
+When variables are declared in the root module of your configuration, they can be set in a number of ways:
+- In an HCP Terraform workspace.
+- Individually, with the `-var` command line option.
+- In variable definitions (`.tfvars`) files, either specified on the command line or automatically loaded.
+- As environment variables.
+
+## Local Values
+Local Values in Terraform are variables defined within your configuration file to simplify and modularize the code. They allow you to create values that can be reused in multiple parts of the configuration, which helps avoid repetition and makes the code cleaner and easier to maintain.  
+
+Example:
+```hcl
+locals {
+  common_tags = {
+    owner = "juan"
+    managed-by = "terraform"
+  }
+}
+```
+
+## Outputs
+Output values make information about your infrastructure available on the command line, and can expose information for other Terraform configurations to use. Output values are similar to return values in programming languages.  
+
+Example:
+```hcl
+output "storage_account_id" {
+    description = "Storage Account ID created in Azure"
+    value = azurerm_storage_account.storage_account.id
+}
+```
