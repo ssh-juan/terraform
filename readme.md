@@ -32,7 +32,7 @@ My Terraform Studies using `v1.10.3`
 #### PowerShell Windows
 `$env:ARM_CLIENT_ID="client_id"`  
 `$env:ARM_TENANT_ID="tenant_id"`  
-`$env:ARM_SUBSCRIPTION_"ID=subscription_id"`  
+`$env:ARM_SUBSCRIPTION_ID="subscription_id"`  
 `$env:ARM_CLIENT_SECRET="client_secret"`
 
 ## Documentation
