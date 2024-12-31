@@ -41,3 +41,6 @@ plan.out
 #.terraformrc
 #terraform.rc
 
+# Ignore possible Keys
+aws-key
+*.pub
