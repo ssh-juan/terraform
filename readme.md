@@ -137,6 +137,12 @@ terraform {
 - `apply` - Create or update infrastructure.
 - `destroy` - Destroy previously-created infrastructure.
 
+## Some more Commands
+- `show` - is used to provide **human-readable output** from a state or plan file. This can be used to inspect a plan to ensure that the planned operations are expected, or to inspect the current state as Terraform sees it.
+- `state` -  is used for advanced state management. As your Terraform usage becomes more advanced, there are some cases where you may need to modify the Terraform state. Rather than modify the state directly, the `terraform state` commands can be used in many cases instead.
+- `import` - Terraform can import existing infrastructure resources. This functionality lets you bring existing resources under Terraform management.
+- `refresh` - The `terraform refresh` command reads the current settings from all managed remote objects and updates the Terraform state to match.
+
 ## Input Variables
 Input variables let you customize aspects of Terraform modules without altering the module's own source code. This functionality allows you to share modules across different Terraform configurations, making your module composable and reusable.  
 
