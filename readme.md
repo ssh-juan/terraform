@@ -249,3 +249,6 @@ terraform {
   }
 }
 ```
+
+### Terraform Remote State Data Source
+The `terraform_remote_state` data source uses the latest state snapshot from a specified state backend to retrieve the root module **output** values from some other Terraform configuration.
