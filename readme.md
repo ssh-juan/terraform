@@ -258,3 +258,8 @@ terraform {
 
 ### Terraform Remote State Data Source
 The `terraform_remote_state` data source uses the latest state snapshot from a specified state backend to retrieve the root module **output** values from some other Terraform configuration.
+
+## Provisioners
+You can use provisioners to model specific actions on the local machine or on a remote machine in order to prepare servers or other infrastructure objects for service.  
+** **Provisioners are a last resource.**
+** **Instead, use user-data at AWS.**
