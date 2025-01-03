@@ -142,6 +142,7 @@ terraform {
 - `state` -  is used for advanced state management. As your Terraform usage becomes more advanced, there are some cases where you may need to modify the Terraform state. Rather than modify the state directly, the `terraform state` commands can be used in many cases instead.
 - `import` - Terraform can import existing infrastructure resources. This functionality lets you bring existing resources under Terraform management.
 - `refresh` - The `terraform refresh` command reads the current settings from all managed remote objects and updates the Terraform state to match.
+- `get` - The `get` command is used to download and update modules mentioned in the root module.
 
 ## Input Variables
 Input variables let you customize aspects of Terraform modules without altering the module's own source code. This functionality allows you to share modules across different Terraform configurations, making your module composable and reusable.  
@@ -264,6 +265,95 @@ You can use provisioners to model specific actions on the local machine or on a 
 ** **Provisioners are a last resource.**
 ** **Instead, use user-data at AWS.**
 
-## Module
+## Modules
 Modules are containers for multiple resources that are used together. A module consists of a collection of `.tf` and/or `.tf.json` files kept together in a directory.
 Modules are the main way to package and reuse resource configurations with Terraform.
+- Local Modules
+- Remote Modules
+
+## Meta Arguments
+Meta-arguments are special parameters used in resource blocks to control how resources are created and managed. They provide a way to dynamically configure resources and make your Terraform configurations more flexible and reusable.
+
+### Kinds of Meta Arguments
+- Resource
+  - depends_on
+  - count
+  - for_each
+  - provider
+  - lifecycle
+- Module
+  - depends_on
+  - count
+  - for_each
+  - provider
+
+#### - depends_on
+Use the `depends_on` meta-argument to handle hidden resource or module dependencies that Terraform cannot automatically infer. You only need to explicitly specify a dependency when a resource or module relies on another resource's behavior but does not access any of that resource's data in its arguments.
+
+#### - count
+`count` is a meta-argument defined by the Terraform language. It can be used with modules and with every resource type.  
+The `count` meta-argument accepts a whole number, and creates that many instances of the resource or module. Each instance has a distinct infrastructure object associated with it, and each is separately created, updated, or destroyed when the configuration is applied.
+```hcl
+resource "aws_instance" "server" {
+  count = 4 # create four similar EC2 instances
+
+  ami           = "ami-a1b2c3d4"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "Server ${count.index}"
+  }
+}
+```
+
+#### - for_each
+`for_each` is a meta-argument defined by the Terraform language. It can be used with modules and with every resource type.  
+The `for_each` meta-argument accepts a map or a set of strings, and creates an instance for each item in that map or set. Each instance has a distinct infrastructure object associated with it, and each is separately created, updated, or destroyed when the configuration is applied.
+```hcl
+# my_buckets.tf
+module "bucket" {
+  for_each = toset(["assets", "media"])
+  source   = "./publish_bucket"
+  name     = "${each.key}_bucket"
+}
+```
+
+#### - providers
+The `provider` meta-argument specifies which provider configuration to use for a resource, overriding Terraform's default behavior of selecting one based on the resource type name. Its value should be an unquoted `<PROVIDER>.<ALIAS>` reference.  
+By default, Terraform interprets the initial word in the resource type name (separated by underscores) as the local name of a provider, and uses that provider's default configuration. For example, the resource type `google_compute_instance` is associated automatically with the default configuration for the provider named `google`.  
+By using the provider meta-argument, you can select an alternate `provider` configuration for a resource:
+```hcl
+# default configuration
+provider "google" {
+  region = "us-central1"
+}
+
+# alternate configuration, whose alias is "europe"
+provider "google" {
+  alias  = "europe"
+  region = "europe-west1"
+}
+
+resource "google_compute_instance" "example" {
+  # This "provider" meta-argument selects the google provider
+  # configuration whose alias is "europe", rather than the
+  # default configuration.
+  provider = google.europe
+
+  # ...
+}
+```
+
+#### - lifecycle
+`lifecycle` is a nested block that can appear within a resource block. The `lifecycle` block and its contents are meta-arguments, available for all `resource` blocks regardless of type.  
+The arguments available within a `lifecycle` block are `create_before_destroy`, `prevent_destroy`, `ignore_changes`, and `replace_triggered_by`.
+
+```hcl
+resource "azurerm_resource_group" "example" {
+  # ...
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+```
