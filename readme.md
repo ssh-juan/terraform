@@ -263,3 +263,7 @@ The `terraform_remote_state` data source uses the latest state snapshot from a s
 You can use provisioners to model specific actions on the local machine or on a remote machine in order to prepare servers or other infrastructure objects for service.  
 ** **Provisioners are a last resource.**
 ** **Instead, use user-data at AWS.**
+
+## Module
+Modules are containers for multiple resources that are used together. A module consists of a collection of `.tf` and/or `.tf.json` files kept together in a directory.
+Modules are the main way to package and reuse resource configurations with Terraform.
