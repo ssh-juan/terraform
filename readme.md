@@ -437,3 +437,11 @@ There's a lot of types of functions, like:
 - IP Network Functions
 - Type Conversion Functions
 - Terraform-specific Functions
+
+## Extra
+
+### Workspaces
+In Terraform, a workspace is like a separate environment where you can manage resources independently using the same configuration files.
+** Cannot use Workspaces when your environments needs different credentials.
+
+### Data Source
