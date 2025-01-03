@@ -137,12 +137,13 @@ terraform {
 - `apply` - Create or update infrastructure.
 - `destroy` - Destroy previously-created infrastructure.
 
-## Some more Commands
+## More Commands
 - `show` - is used to provide **human-readable output** from a state or plan file. This can be used to inspect a plan to ensure that the planned operations are expected, or to inspect the current state as Terraform sees it.
 - `state` -  is used for advanced state management. As your Terraform usage becomes more advanced, there are some cases where you may need to modify the Terraform state. Rather than modify the state directly, the `terraform state` commands can be used in many cases instead.
 - `import` - Terraform can import existing infrastructure resources. This functionality lets you bring existing resources under Terraform management.
 - `refresh` - The `terraform refresh` command reads the current settings from all managed remote objects and updates the Terraform state to match.
 - `get` - The `get` command is used to download and update modules mentioned in the root module.
+- `console` - The `terraform console` command provides an interactive console for evaluating expressions.
 
 ## Input Variables
 Input variables let you customize aspects of Terraform modules without altering the module's own source code. This functionality allows you to share modules across different Terraform configurations, making your module composable and reusable.  
@@ -357,3 +358,82 @@ resource "azurerm_resource_group" "example" {
   }
 }
 ```
+
+## Functions and Expressions
+
+### Conditional Expressions
+A conditional expression uses the value of a boolean expression to select one of two values.  
+The syntax of a conditional expression is as follows:
+```hcl
+condition ? true_val : false_val
+```
+If `condition` is `true` then the result is `true_val`. If `conditio` is `false` then the result is `false_val`.
+
+A common use of conditional expressions is to define defaults to replace invalid values:
+```hcl
+var.a != "" ? var.a : "default-a"
+```
+
+### For Expressions
+A `for` expression creates a complex type value by transforming another complex type value. Each element in the input value can correspond to either one or zero values in the result, and an arbitrary expression can be used to transform each input element into an output element.  
+For example, if `var.list` were a list of strings, then the following expression would produce a tuple of strings with all-uppercase letters:
+```hcl
+[for s in var.list : upper(s)]
+```
+
+### Splat Expressions
+A splat expression provides a more concise way to express a common operation that could otherwise be performed with a `for` expression.  
+If `var.list` is a list of objects that all have an attribute `id`, then a list of the ids could be produced with the following `for` expression:
+```hcl
+[for o in var.list : o.id]
+```
+This is equivalent to the following splat expression:
+```hcl
+var.list[*].id
+```
+
+### Dynamic Blocks
+Within top-level block constructs like resources, expressions can usually be used only when assigning a value to an argument using the `name = expression` form. This covers many uses, but some resource types include repeatable nested blocks in their arguments, which typically represent separate objects that are related to (or embedded within) the containing object:
+```hcl
+resource "aws_elastic_beanstalk_environment" "tfenvtest" {
+  name = "tf-test-name" # can use expressions here
+
+  setting {
+    # but the "setting" block is always a literal block
+  }
+}
+```
+You can dynamically construct repeatable nested blocks like `setting` using a special `dynamic` block type, which is supported inside `resource`, `data`, `provider`, and `provisioner` blocks:
+```hcl
+resource "aws_elastic_beanstalk_environment" "tfenvtest" {
+  name                = "tf-test-name"
+  application         = aws_elastic_beanstalk_application.tftest.name
+  solution_stack_name = "64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6"
+
+  dynamic "setting" {
+    for_each = var.settings
+    content {
+      namespace = setting.value["namespace"]
+      name = setting.value["name"]
+      value = setting.value["value"]
+    }
+  }
+}
+```
+
+### Built-in Functions
+The Terraform language includes a number of built-in functions that you can call from within expressions to transform and combine values. The general syntax for function calls is a function name followed by comma-separated arguments in parentheses:
+```hcl
+max(5, 12, 9)
+```
+There's a lot of types of functions, like:
+- Numeric Functions
+- String Functions
+- Collection Functions
+- Encoding Functions
+- Filesystem Functions
+- Date and Time Functions
+- Hash and Crypto Functions
+- IP Network Functions
+- Type Conversion Functions
+- Terraform-specific Functions
