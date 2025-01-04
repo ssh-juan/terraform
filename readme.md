@@ -1,8 +1,10 @@
 # Terraform
-My Terraform Studies using `v1.10.3`
+![repo_logo](imgs/repo_logo.png)  
+My Terraform Learnings, more focused in AWS.  
+I used the Terraform `v1.10.3`  
+The most part of the content and learnings of this repo, is based on my studies of the [Daniel Gil's Terraform Course](https://www.udemy.com/course/terraform-do-basico-ao-avancado/).
 
-## Setting Access Keys as Environment Variables
-- Configuring Access Keys by setting Environment Variables on various Operational Systems
+## Setting Access Keys as Environment Variables on various Operational Systems
 ### AWS
 #### Linux
 `export AWS_ACCESS_KEY_ID="access_key"`  
