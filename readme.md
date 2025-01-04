@@ -438,10 +438,30 @@ There's a lot of types of functions, like:
 - Type Conversion Functions
 - Terraform-specific Functions
 
-## Extra
+## Extra - Advanced Resources
 
 ### Workspaces
 In Terraform, a workspace is like a separate environment where you can manage resources independently using the same configuration files.
 ** Cannot use Workspaces when your environments needs different credentials.
 
 ### Data Source
+Data sources allow Terraform to use information defined outside of Terraform, defined by another separate Terraform configuration, or modified by functions.  
+A data source is accessed via a special kind of resource known as a data resource, declared using a data block:
+```hcl
+data "aws_ami" "example" {
+  most_recent = true
+
+  owners = ["self"]
+  tags = {
+    Name   = "app-server"
+    Tested = "true"
+  }
+}
+```
+
+### Target and Replace Resources
+- `-replace=ADDRESS` - Instructs Terraform to plan to replace the resource instance with the given address. This is helpful when one or more remote objects have become degraded, and you can use replacement objects with the same configuration to align with immutable infrastructure patterns.
+- `-target=ADDRESS` - Instructs Terraform to focus its planning efforts only on resource instances which match the given address and on any objects that those instances depend on.
+
+### Time Sleep
+Manages a resource that delays creation and/or destruction, typically for further resources. This prevents cross-platform compatibility and destroy-time issues with using the `local-exec` provisioner.
