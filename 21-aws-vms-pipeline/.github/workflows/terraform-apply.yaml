@@ -8,7 +8,7 @@ env:
 jobs:
   terraform_apply:
     name: Terraform Apply
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash

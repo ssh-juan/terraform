@@ -8,7 +8,7 @@ env:
 jobs:
   terraform_destroy:
     name: Terraform Destroy
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash

@@ -11,6 +11,6 @@ resource "aws_instance" "vm" {
   vpc_security_group_ids = [data.terraform_remote_state.vpc.outputs.security_group_id]
 
   tags = {
-    Name = "vm-terraform"
+    Name = "vm-terraform-pipeline"
   }
 }
