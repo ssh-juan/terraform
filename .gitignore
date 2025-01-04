@@ -43,4 +43,5 @@ plan.out
 
 # Ignore possible Keys
 aws-key
+aws-key*
 *.pub
